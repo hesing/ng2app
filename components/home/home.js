@@ -10,14 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var angular2_1 = require('angular2/angular2');
-var router_1 = require('angular2/router');
 var Home = (function () {
     function Home() {
     }
     Home = __decorate([
         angular2_1.Component({
             selector: 'home',
-            directives: [router_1.ROUTER_DIRECTIVES],
             templateUrl: './components/home/home.html'
         }), 
         __metadata('design:paramtypes', [])
