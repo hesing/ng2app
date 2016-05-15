@@ -15,9 +15,12 @@
                     <i class="menu-arrow" [ngClass]="{
                         'ti-angle-right': !toggledSubMenu,
                         'ti-angle-down': toggledSubMenu
-                    }"></i> Headers
+                    }"></i> Demos
                 </a>
                 <ul [class.toggled]="toggledSubMenu">
+                    <li>
+                        <a [routerLink]="['/simple-http']">Simple Http</a>
+                    </li>
                     <li><a data-ng-click="mactrl.sidebarStat($event)" data-ui-sref="headers.textual-menu" data-ui-sref-active="active" class="active" href="#/headers/textual-menu">Textual menu</a></li>
                     <li><a data-ng-click="mactrl.sidebarStat($event)" data-ui-sref="headers.image-logo" data-ui-sref-active="active" href="#/headers/image-logo">Image logo</a></li>
                     <li><a data-ng-click="mactrl.sidebarStat($event)" data-ui-sref="headers.mainmenu-on-top" data-ui-sref-active="active" href="#/headers/mainmenu-on-top">Mainmenu on top</a></li>

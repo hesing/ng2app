@@ -3,6 +3,7 @@ import { ROUTER_DIRECTIVES, Routes } from '@angular/router';
 
 import { AboutComponent } from './about/index';
 import { HomeComponent } from './home/index';
+import { SimpleHTTPComponent } from './simple-http/SimpleHttpComponent';
 import { NavbarComponent, SidebarComponent, NameListService } from './shared/index';
 
 @Component({
@@ -19,12 +20,15 @@ import { NavbarComponent, SidebarComponent, NameListService } from './shared/ind
   {
     path: '/about',
     component: AboutComponent
+  },
+  {
+    path: '/simple-http',
+    component: SimpleHTTPComponent
   }
 ])
 export class AppComponent {
   toggled: boolean = true;
   toggleSidebar(toggled: boolean) {
-    console.log(toggled + 'from app 1');
     this.toggled = toggled;
   }
 }
