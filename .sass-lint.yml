@@ -1,0 +1,7 @@
+rules:
+  indentation:
+    - 1
+    -
+      size: 1
+  force-element-nesting: 0
+  no-color-literals: 0

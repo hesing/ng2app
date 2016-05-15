@@ -1,0 +1,8 @@
+<navbar (onToggleSidebar)="toggleSidebar($event)"></navbar>
+
+<div id="wrapper">
+    <sidebar [toggled]="toggled"></sidebar>
+    <div class="content">
+       <router-outlet></router-outlet>
+    </div>
+</div>

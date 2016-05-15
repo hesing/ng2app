@@ -1,0 +1,28 @@
+<aside class="sidebar left" [class.toggled]="toggled">
+    <div class="sidebar-inner">
+        <ul class="menu">
+            <li>
+                <a href=''>Home</a>
+            </li>
+            <li class="active">
+                <a href=''>About 1</a>
+            </li>
+            <li>
+                <a href=''>Contact</a>
+            </li>
+            <li class="sub-menu">
+                <a href="" (click)="toggleSubMenu($event)">
+                    <i class="menu-arrow" [ngClass]="{
+                        'ti-angle-right': !toggledSubMenu,
+                        'ti-angle-down': toggledSubMenu
+                    }"></i> Headers
+                </a>
+                <ul [class.toggled]="toggledSubMenu">
+                    <li><a data-ng-click="mactrl.sidebarStat($event)" data-ui-sref="headers.textual-menu" data-ui-sref-active="active" class="active" href="#/headers/textual-menu">Textual menu</a></li>
+                    <li><a data-ng-click="mactrl.sidebarStat($event)" data-ui-sref="headers.image-logo" data-ui-sref-active="active" href="#/headers/image-logo">Image logo</a></li>
+                    <li><a data-ng-click="mactrl.sidebarStat($event)" data-ui-sref="headers.mainmenu-on-top" data-ui-sref-active="active" href="#/headers/mainmenu-on-top">Mainmenu on top</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</aside>
