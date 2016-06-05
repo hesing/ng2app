@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { argv } from 'yargs';
 
-import { Environments, InjectableDependency, SassOptions } from './seed.config.interfaces';
+import { Environments, InjectableDependency } from './seed.config.interfaces';
 
 /**
  * The enumeration of available environments.
@@ -28,8 +28,7 @@ export class SeedConfig {
 
   /**
    * The port where the application will run.
-   * The default port is `5555`, which can be overriden by the  `--port` flag
-   * when running `npm start`.
+   * The default port is `5555`, which can be overriden by the  `--port` flag when running `npm start`.
    * @type {number}
    */
   PORT = argv['port'] || 5555;
@@ -41,54 +40,55 @@ export class SeedConfig {
 
   /**
    * The current environment.
-   * The default environment is `dev`, which can be overriden by the `--env`
-   * flag when running `npm start`.
+   * The default environment is `dev`, which can be overriden by the `--env` flag when running `npm start`.
    */
   ENV = getEnvironment();
 
   /**
    * The flag for the debug option of the application.
-   * The default value is `false`, which can be overriden by the `--debug` flag
-   * when running `npm start`.
+   * The default value is `false`, which can be overriden by the `--debug` flag when running `npm start`.
    * @type {boolean}
    */
   DEBUG = argv['debug'] || false;
 
   /**
    * The port where the documentation application will run.
-   * The default docs port is `4003`, which can be overriden by the
-   * `--docs-port` flag when running `npm start`.
+   * The default docs port is `4003`, which can be overriden by the `--docs-port` flag when running `npm start`.
    * @type {number}
    */
   DOCS_PORT = argv['docs-port'] || 4003;
 
   /**
    * The port where the unit test coverage report application will run.
-   * The default coverage port is `4004`, which can by overriden by the
-   * `--coverage-port` flag when running `npm start`.
+   * The default coverage port is `4004`, which can by overriden by the `--coverage-port` flag when running `npm start`.
    * @type {number}
    */
   COVERAGE_PORT = argv['coverage-port'] || 4004;
 
   /**
    * The path for the base of the application at runtime.
-   * The default path is `/`, which can be overriden by the `--base` flag when
-   * running `npm start`.
+   * The default path is `/`, which can be overriden by the `--base` flag when running `npm start`.
    * @type {string}
    */
   APP_BASE = argv['base'] || '/';
 
   /**
-   * The flag for the hot-loader option of the application.
-   * Per default the option is not set, but can be set by the `--hot-loader`
-   * flag when running `npm start`.
+   * The flag to include templates into JS app prod file.
+   * Per default the option is `true`, but can it can be set to false using `--inline-template false`
+   * flag when running `npm run build.prod`.
    * @type {boolean}
    */
-  ENABLE_HOT_LOADING   = argv['hot-loader'];
+  INLINE_TEMPLATES = argv['inline-template'] !== 'false';
 
   /**
-   * The port where the application will run, if the `hot-loader` option mode
-   * is used.
+   * The flag for the hot-loader option of the application.
+   * Per default the option is not set, but can be set by the `--hot-loader` flag when running `npm start`.
+   * @type {boolean}
+   */
+  ENABLE_HOT_LOADING = argv['hot-loader'];
+
+  /**
+   * The port where the application will run, if the `hot-loader` option mode is used.
    * The default hot-loader port is `5578`.
    * @type {number}
    */
@@ -102,10 +102,17 @@ export class SeedConfig {
   BOOTSTRAP_DIR = 'app';
 
   /**
-   * The bootstrap file to be used to boot the application.
-   * The file to be used is dependent if the hot-loader option is used or not.
-   * Per default (non hot-loader mode) the `main.ts` file will be used, with the
-   * hot-loader option enabled, the `hot_loader_main.ts` file will be used.
+   * The directory where the client files are located.
+   * The default directory is `client`.
+   * @type {string}
+   */
+  APP_CLIENT = argv['client'] || 'client';
+
+  /**
+   * The bootstrap file to be used to boot the application. The file to be used is dependent if the hot-loader option is
+   * used or not.
+   * Per default (non hot-loader mode) the `main.ts` file will be used, with the hot-loader option enabled, the
+   * `hot_loader_main.ts` file will be used.
    * @type {string}
    */
   BOOTSTRAP_MODULE = `${this.BOOTSTRAP_DIR}/` + (this.ENABLE_HOT_LOADING ? 'hot_loader_main' : 'main');
@@ -115,13 +122,13 @@ export class SeedConfig {
    * `index.html`.
    * @type {string}
    */
-  APP_TITLE = 'My Angular2 App';
+  APP_TITLE = 'Welcome to angular2-seed!';
 
   /**
    * The base folder of the applications source files.
    * @type {string}
    */
-  APP_SRC = 'src/client';
+  APP_SRC = `src/${this.APP_CLIENT}`;
 
   /**
    * The folder of the applications asset files.
@@ -187,9 +194,6 @@ export class SeedConfig {
    * @type {strings}
    */
   CSS_DEST = `${this.APP_DEST}/css`;
-  SASS_OPTIONS: SassOptions = {
-    outputStyle: 'expanded', // nested, expanded, compact, compressed,
-  };
 
   /**
    * The folder for the built JavaScript files.
@@ -206,7 +210,7 @@ export class SeedConfig {
    * The name of the bundle file to includes all CSS files.
    * @type {string}
    */
-  CSS_PROD_BUNDLE = 'all.css';
+  CSS_PROD_BUNDLE = 'main.css';
 
   /**
    * The name of the bundle file to include all JavaScript shims.
@@ -237,9 +241,12 @@ export class SeedConfig {
    */
   CODELYZER_RULES = customRules();
 
-  FILE_TO_COPY = [
-     this.APP_SRC + '/fonts/**/*.*'
-  ];
+  /**
+   * The flag to enable handling of SCSS files
+   * The default value is false. Override with the '--scss' flag.
+   * @type {boolean}
+   */
+  ENABLE_SCSS = argv['scss'] || true;
 
   /**
    * The list of NPM dependcies to be injected in the `index.html`.
@@ -248,8 +255,7 @@ export class SeedConfig {
   NPM_DEPENDENCIES: InjectableDependency[] = [
     { src: 'systemjs/dist/system-polyfills.src.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
     { src: 'zone.js/dist/zone.js', inject: 'libs' },
-    { src: 'reflect-metadata/Reflect.js', inject: 'shims' },
-    { src: 'es6-shim/es6-shim.js', inject: 'shims' },
+    { src: 'core-js/client/shim.min.js', inject: 'shims' },
     { src: 'systemjs/dist/system.src.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
     { src: 'rxjs/bundles/Rx.js', inject: 'libs', env: ENVIRONMENTS.DEVELOPMENT }
   ];
@@ -259,7 +265,7 @@ export class SeedConfig {
    * @type {InjectableDependency[]}
    */
   APP_ASSETS: InjectableDependency[] = [
-    { src: `${this.CSS_SRC}/main.css`, inject: true, vendor: false }
+    { src: `${this.CSS_SRC}/main.${ this.getInjectableStyleExtension() }`, inject: true, vendor: false },
   ];
 
   /**
@@ -273,7 +279,7 @@ export class SeedConfig {
 
   /**
    * Returns the array of injectable dependencies (npm dependencies and assets).
-   * @return {InjectableDependency[]} the array of npm dependencies and assets.
+   * @return {InjectableDependency[]} The array of npm dependencies and assets.
    */
   get DEPENDENCIES(): InjectableDependency[] {
     return normalizeDependencies(this.NPM_DEPENDENCIES.filter(filterDependency.bind(null, this.ENV)))
@@ -293,7 +299,14 @@ export class SeedConfig {
     ],
     paths: {
       [this.BOOTSTRAP_MODULE]: `${this.APP_BASE}${this.BOOTSTRAP_MODULE}`,
-      'rxjs/*': `${this.APP_BASE}rxjs/*`,
+      '@angular/core': `${this.APP_BASE}node_modules/@angular/core/core.umd.js`,
+      '@angular/common': `${this.APP_BASE}node_modules/@angular/common/common.umd.js`,
+      '@angular/compiler': `${this.APP_BASE}node_modules/@angular/compiler/compiler.umd.js`,
+      '@angular/http': `${this.APP_BASE}node_modules/@angular/http/http.umd.js`,
+      '@angular/router': `${this.APP_BASE}node_modules/@angular/router/router.umd.js`,
+      '@angular/platform-browser': `${this.APP_BASE}node_modules/@angular/platform-browser/platform-browser.umd.js`,
+      '@angular/platform-browser-dynamic': `${this.APP_BASE}node_modules/@angular/platform-browser-dynamic/platform-browser-dynamic.umd.js`,
+      'rxjs/*': `${this.APP_BASE}node_modules/rxjs/*`,
       'app/*': `/app/*`,
       '*': `${this.APP_BASE}node_modules/*`
     },
@@ -348,10 +361,6 @@ export class SeedConfig {
         main: 'index.js',
         defaultExtension: 'js'
       },
-      '@angular/router-deprecated': {
-        main: 'index.js',
-        defaultExtension: 'js'
-      },
       '@angular/router': {
         main: 'index.js',
         defaultExtension: 'js'
@@ -379,42 +388,77 @@ export class SeedConfig {
   ];
 
   /**
-   * The BrowserSync configuration of the application.
-   * @type {any}
+   * Configurations for NPM module configurations. Add to or override in project.config.ts.
+   * If you like, use the mergeObject() method to assist with this.
    */
-  BROWSER_SYNC_CONFIG: any = {
-    middleware: [require('connect-history-api-fallback')({index: `${this.APP_BASE}index.html`})],
-    port: this.PORT,
-    startPath: this.APP_BASE,
-    server: {
-      baseDir: `${this.DIST_DIR}/empty/`,
-      routes: {
-        [`${this.APP_BASE}${this.APP_DEST}`]: this.APP_DEST,
-        [`${this.APP_BASE}node_modules`]: 'node_modules',
-        [`${this.APP_BASE.replace(/\/$/,'')}`]: this.APP_DEST
+  PLUGIN_CONFIGS: any = {
+    /**
+     * The BrowserSync configuration of the application.
+     * The default open behavior is to open the browser. To prevent the browser from opening use the `--b`  flag when
+     * running `npm start` (tested with serve.dev).
+     * Example: `npm start -- --b`
+     * @type {any}
+     */
+    'browser-sync': {
+      middleware: [require('connect-history-api-fallback')({ index: `${this.APP_BASE}index.html` })],
+      port: this.PORT,
+      startPath: this.APP_BASE,
+      open: argv['b'] ? false : true,
+      injectChanges: false,
+      server: {
+        baseDir: `${this.DIST_DIR}/empty/`,
+        routes: {
+          [`${this.APP_BASE}${this.APP_DEST}`]: this.APP_DEST,
+          [`${this.APP_BASE}node_modules`]: 'node_modules',
+          [`${this.APP_BASE.replace(/\/$/, '')}`]: this.APP_DEST
+        }
       }
     }
   };
+
+  /**
+   * Recursively merge source onto target.
+   * @param {any} target The target object (to receive values from source)
+   * @param {any} source The source object (to be merged onto target)
+   */
+  mergeObject(target: any, source: any) {
+    const deepExtend = require('deep-extend');
+    deepExtend(target, source);
+  }
+
+  /**
+   * Locate a plugin configuration object by plugin key.
+   * @param {any} pluginKey The object key to look up in PLUGIN_CONFIGS.
+   */
+  getPluginConfig(pluginKey: string): any {
+    if (this.PLUGIN_CONFIGS[ pluginKey ]) {
+      return this.PLUGIN_CONFIGS[pluginKey];
+    }
+    return null;
+  }
+
+  getInjectableStyleExtension() {
+    return this.ENV === ENVIRONMENTS.PRODUCTION && this.ENABLE_SCSS ? 'scss' : 'css';
+  }
 
 }
 
 /**
  * Normalizes the given `deps` to skip globs.
- * @param {InjectableDependency[]} deps the dependencies to be normalized.
+ * @param {InjectableDependency[]} deps - The dependencies to be normalized.
  */
 export function normalizeDependencies(deps: InjectableDependency[]) {
   deps
-    .filter((d:InjectableDependency) => !/\*/.test(d.src)) // Skip globs
-    .forEach((d:InjectableDependency) => d.src = require.resolve(d.src));
+    .filter((d: InjectableDependency) => !/\*/.test(d.src)) // Skip globs
+    .forEach((d: InjectableDependency) => d.src = require.resolve(d.src));
   return deps;
 }
 
 /**
  * Returns if the given dependency is used in the given environment.
- * @param  {string}               env the environment to be filtered for
- * @param  {InjectableDependency} d   the dependency to check
- * @return {boolean}                  `true` if the dependency is used in this
- *                                    environment, `false` otherwise
+ * @param  {string}               env - The environment to be filtered for.
+ * @param  {InjectableDependency} d   - The dependency to check.
+ * @return {boolean}                    `true` if the dependency is used in this environment, `false` otherwise.
  */
 function filterDependency(env: string, d: InjectableDependency): boolean {
   if (!d.env) {
@@ -428,16 +472,16 @@ function filterDependency(env: string, d: InjectableDependency): boolean {
 
 /**
  * Returns the applications version as defined in the `package.json`.
- * @return {number} the applications version
+ * @return {number} The applications version.
  */
-function appVersion(): number|string {
+function appVersion(): number | string {
   var pkg = require('../../package.json');
   return pkg.version;
 }
 
 /**
  * Returns the linting configuration to be used for `codelyzer`.
- * @return {string[]} the list of linting rules
+ * @return {string[]} The list of linting rules.
  */
 function customRules(): string[] {
   var lintConf = require('../../tslint.json');
@@ -448,7 +492,7 @@ function customRules(): string[] {
  * Returns the environment of the application.
  */
 function getEnvironment() {
-  let base:string[] = argv['_'];
+  let base: string[] = argv['_'];
   let prodKeyword = !!base.filter(o => o.indexOf(ENVIRONMENTS.PRODUCTION) >= 0).pop();
   let env = (argv['env'] || '').toLowerCase();
   if ((base && prodKeyword) || env === ENVIRONMENTS.PRODUCTION) {

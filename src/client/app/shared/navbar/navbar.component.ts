@@ -1,17 +1,18 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
+import { Component } from '@angular/core';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 
+/**
+ * This class represents the navigation bar component.
+ */
 @Component({
-  selector: 'navbar',
-  templateUrl: 'app/shared/navbar/navbar.component.html',
+  moduleId: module.id,
+  selector: 'sd-navbar',
+  templateUrl: 'navbar.component.html',
   directives: [ROUTER_DIRECTIVES]
 })
 export class NavbarComponent {
-	toggled: boolean = true;
-	@Output() onToggleSidebar = new EventEmitter();
-
-    toggleSidebar() {
-        this.toggled = !this.toggled;
-        this.onToggleSidebar.emit(this.toggled);
-    }
+    constructor(public router: Router){ }
+    isActiveRoute(route: string) {
+          return this.router.serializeUrl(this.router.urlTree) == this.router.serializeUrl((this.router.createUrlTree([route])));
+    } 
 }

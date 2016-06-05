@@ -1,16 +1,20 @@
 import { Component } from '@angular/core';
-import { ROUTER_DIRECTIVES, Routes } from '@angular/router';
+import { Routes, Router, ROUTER_DIRECTIVES } from '@angular/router';
+import { HTTP_PROVIDERS} from '@angular/http';
 
-import { AboutComponent } from './about/index';
-import { HomeComponent } from './home/index';
-import { SimpleHTTPComponent } from './simple-http/SimpleHttpComponent';
-import { NavbarComponent, SidebarComponent, NameListService } from './shared/index';
-
+import { NavbarComponent } from './shared/index';
+import { AboutComponent } from './+about/index';
+import { HomeComponent } from './+home/index';
+/**
+ * This class represents the main application component. Within the @Routes annotation is the configuration of the
+ * applications routes, configuring the paths for the lazy loaded components (HomeComponent, AboutComponent).
+ */
 @Component({
+  moduleId: module.id,
   selector: 'sd-app',
-  templateUrl: 'app/app.component.html',
-  viewProviders: [NameListService],
-  directives: [ROUTER_DIRECTIVES, NavbarComponent, SidebarComponent]
+  viewProviders: [HTTP_PROVIDERS],
+  templateUrl: 'app.component.html',
+  directives: [ROUTER_DIRECTIVES, NavbarComponent]
 })
 @Routes([
   {
@@ -20,15 +24,8 @@ import { NavbarComponent, SidebarComponent, NameListService } from './shared/ind
   {
     path: '/about',
     component: AboutComponent
-  },
-  {
-    path: '/simple-http',
-    component: SimpleHTTPComponent
   }
 ])
 export class AppComponent {
-  toggled: boolean = true;
-  toggleSidebar(toggled: boolean) {
-    this.toggled = toggled;
-  }
+
 }

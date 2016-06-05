@@ -12,17 +12,14 @@ loadTasks(PROJECT_TASKS_DIR);
 // --------------
 // Build dev.
 gulp.task('build.dev', (done: any) =>
-  runSequence(
-              'clean.dev',
-              'tslint',
-              'sass-lint',
-              // 'css-lint',
-              'build.scss',
+  runSequence(//'clean.dev',
+//              'tslint',
+//              'css-lint',
               'build.assets.dev',
               'build.html_css',
               'build.js.dev',
               'build.index.dev',
-              'copy',
+              'build.fonts',    // Added task;
               done));
 
 // --------------
@@ -45,12 +42,9 @@ gulp.task('build.e2e', (done: any) =>
 // --------------
 // Build prod.
 gulp.task('build.prod', (done: any) =>
-  runSequence(
-              'clean.prod',
+  runSequence('clean.prod',
               'tslint',
-              // 'css-lint',
-              // 'sass-lint',
-              'build.scss',
+              'css-lint',
               'build.assets.prod',
               'build.html_css',
               'copy.js.prod',
@@ -58,6 +52,7 @@ gulp.task('build.prod', (done: any) =>
               'build.bundles',
               'build.bundles.app',
               'build.index.prod',
+              'build.fonts',    // Added task;
               done));
 
 // --------------
@@ -68,6 +63,7 @@ gulp.task('build.test', (done: any) =>
               'build.assets.dev',
               'build.js.test',
               'build.index.dev',
+              'build.fonts',    // Added task;
               done));
 
 // --------------
@@ -86,10 +82,10 @@ gulp.task('build.tools', (done: any) =>
 
 // --------------
 // Docs
-gulp.task('docs', (done: any) =>
-  runSequence('build.docs',
-              'serve.docs',
-              done));
+// gulp.task('docs', (done: any) =>
+//   runSequence('build.docs',
+//               'serve.docs',
+//               done));
 
 // --------------
 // Serve dev
