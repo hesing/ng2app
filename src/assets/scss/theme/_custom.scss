@@ -1,0 +1,27 @@
+﻿html, body {
+  min-height: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body{
+	overflow: hidden;
+}
+
+@font-face {
+  font-family: 'SEGOEUIL';
+  src: url('../fonts/SEGOEUIL.eot');
+  src: local('SEGOEUIL'), url('../fonts/SEGOEUIL.woff') format('woff'), url('../fonts/SEGOEUIL.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SEGOEUIBOLD';
+  src: url('../fonts/ufonts.com_segoe_ui_bold.eot');
+  src: local('SEGOEUIBOLD'), url('../fonts/ufonts.com_segoe-ui-bold.woff') format('woff'), url('../fonts/ufonts.com_segoe-ui-bold.ttf') format('truetype');
+}
+
+.content{
+	background-color: #d8d8d8;
+	height: 100%;
+}

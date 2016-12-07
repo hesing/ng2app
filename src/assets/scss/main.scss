@@ -1,0 +1,16 @@
+@import "theme/theme";
+@import 'bootstrap/scss/bootstrap';
+@import '../../../node_modules/font-awesome/scss/font-awesome';
+@import "components/callout";
+@import "components/sidebar";
+@import "theme/bootstrap-override";
+
+@media (min-width: 48em) { 
+	.sidebar.toggled + .content{
+		width: calc(100% - 280px);
+	}
+}
+
+
+
+

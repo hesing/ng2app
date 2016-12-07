@@ -1,0 +1,166 @@
+@import "../theme/variables";
+
+.sidebar-header{
+    background-color: $gray-light;
+    position: relative;
+    height: 81px;
+}
+
+.collapsed .sidebar-header{
+    overflow: hidden;
+}
+
+
+.sidebar-header > div, .toggleSection > div{
+    display: inline-block;
+}
+
+.mdl2-ellipsis {
+    position: absolute;
+    right: 75px;
+    top: 12px;
+}
+
+.iconbarBtn{
+    margin: 15px 0 30px;  
+    outline: none;
+}
+
+.collapsed .iconbarBtn{
+    margin-top: 0;
+}
+
+.iconbarBtn:focus{
+    outline: none;
+}
+
+.collapsed .iconbarBtn{
+    padding: 20px;  
+}
+
+.fsa{
+    position: relative;
+}
+
+.ico-fsa {
+    font-size: 8px;
+    left: 16px;
+    position: absolute;
+    top: 11px;
+}
+
+.icon-bar {
+    background-color: #b3b3be;
+}
+.icon-bar {
+    border-radius: 1px;
+    display: block;
+    height: 2px;
+    width: 22px;
+    margin: 4px;
+}
+
+.sidebar-header > div, .sidebar-toggle-wrapper > div{
+    display: inline-block;      
+}
+
+.sidebar-title {
+    color: #000000;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px 15px 30px 15px;
+}
+
+
+aside.left-panel {
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 350px;
+}
+
+aside.left-panel.collapsed {
+    text-align: center;
+    width: 75px;
+}
+
+aside.left-panel.collapsed {
+    bottom: 0;
+    overflow: visible !important;
+    position: absolute;
+}
+
+.content {
+    margin-left: 350px;
+}
+
+aside.left-panel.collapsed + .content {
+    margin-left: 75px;
+}
+
+aside.left-panel .navigation{
+    height: calc(100% - 80px);
+    overflow-y: auto;
+}
+
+aside.left-panel.collapsed .navigation > ul > li > a {
+    padding: 20px;
+}
+
+.navigation > ul > li{
+    border-bottom: 1px solid $gray-light;
+
+    &.active{
+        background-color: $brand-danger;
+        
+        & a{
+            color: #fff;
+        }
+    }
+}
+
+.navigation > ul > li > a {
+    color: #4a4a4a;
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    outline: medium none !important;
+    padding: 10px 15px;
+    text-decoration: none;
+    transition: all 0.4s ease 0s;
+
+    & > i{
+        padding-right: 20px;
+    }
+}
+
+aside.left-panel .navigation > ul > li > a > i {
+    padding-right: 0;
+}
+
+aside.left-panel.collapsed .user .user-login,
+aside.left-panel.collapsed span.nav-label,
+aside.left-panel.collapsed .sidebar-title,
+aside.left-panel.collapsed .logoutSection {
+    display: none;
+}
+
+.navigation ul li a .nav-label {
+    vertical-align: middle;
+    padding-left: 15px;
+}
+
+.logoutSection .popover{
+    left: 30px;
+    top: 46px;
+    width: 270px;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.popover.popover-bottom::before, .popover.popover-bottom::after{
+  left: 87%;
+}
